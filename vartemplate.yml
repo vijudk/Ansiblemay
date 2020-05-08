@@ -1,0 +1,15 @@
+---
+- hosts: server2
+  remote_user: test1000
+  become: yes
+  vars:
+    pkg: httpd
+  vars_files:
+      - abl.yml
+      - abl2.yml
+          
+  tasks:
+      - name: copy template file
+        template: src=xyz.j2 dest=/var/www/html
+      
+      

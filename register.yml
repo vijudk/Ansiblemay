@@ -1,0 +1,17 @@
+---
+- hosts: server2
+  remote_user: test1000
+  become: yes
+  vars:
+    pkg: httpd
+  vars_files:
+      - abl.yml
+  tasks:
+      - name: Install httpd package
+        yum: name=httpd state=installed
+      - name: copy index.html
+        copy: src=index.html dest=/var/www/html
+      - name: start httpd service
+        service: name=httpd state=started
+        register: result
+      - debug: var=result

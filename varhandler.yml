@@ -1,0 +1,29 @@
+---
+- hosts: server2
+  remote_user: test1000
+  become: yes
+  vars:
+    pkg: httpd
+  vars_files:
+      - abl.yml
+      - abl2.yml
+  vars_prompt:
+      - name: pkg3
+        prompt: "enter pkg3"
+        private: no
+  tasks:
+      - name: Install {{pkg1}} package
+        yum: name={{pkg1}} state=installed
+      - name: Install {{pkg2}} package
+        yum: name={{pkg2}} state=installed
+      - name: Install {{pkg3}} package
+        yum: name={{pkg3}} state=installed
+      - name: copy index.html
+        copy: src=index.html dest=/var/www/html
+        notify: restart httpd
+      - name: start httpd service
+        service: name=httpd state=started
+  handlers:
+      - name: restart httpd
+        service: name=httpd state=restarted
+

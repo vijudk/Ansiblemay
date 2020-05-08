@@ -1,0 +1,7 @@
+---
+- hosts: webserver
+  remote_user: test1000
+  become: yes
+  roles:
+     - webservers
+     - geerlingguy.git
